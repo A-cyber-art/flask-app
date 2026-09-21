@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Created</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">
+            ✓
+        </div>
+
+        <h1>Employee Created Successfully</h1>
+
+        <p>
+            The employee account has been created successfully.
+        </p>
+
+        <div class="profile-item" style="margin-top: 25px; text-align: left;">
+
+            <p><strong>Employee:</strong> {{ name }}</p>
+
+            <p style="margin-top: 10px;">
+                <strong>Employee ID:</strong> {{ employee_id }}
+            </p>
+
+            <p style="margin-top: 10px;">
+                <strong>Username:</strong> {{ username }}
+            </p>
+
+            <p style="margin-top: 10px;">
+                <strong>Password:</strong> {{ password }}
+            </p>
+
+        </div>
+
+        <div class="dashboard-buttons">
+
+            <a href="{{ url_for('employees') }}">
+                Back to Employees
+            </a>
+
+            <a href="{{ url_for('attendance') }}">
+                Go to Attendance
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

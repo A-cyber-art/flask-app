@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <div>
+                <h2>My Profile</h2>
+                <p>{{ profile.name }}</p>
+            </div>
+
+        </div>
+
+
+        <!-- Profile Information -->
+        <div class="profile-grid">
+
+            <div class="profile-item">
+                <label>Username</label>
+                <p>{{ profile.username }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Role</label>
+                <p>{{ profile.role }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Employee ID</label>
+                <p>{{ profile.employee_id }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Name</label>
+                <p>{{ profile.name }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Email</label>
+                <p>{{ profile.email }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Phone</label>
+                <p>{{ profile.phone }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Department</label>
+                <p>{{ profile.department }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Designation</label>
+                <p>{{ profile.designation }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Joining Date</label>
+                <p>{{ profile.joining_date }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Status</label>
+
+                <span class="profile-status">
+                    {{ profile.status }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="profile-actions">
+
+            <a href="{{ url_for('user_dashboard') }}"
+               class="back-btn">
+                ← Back to Dashboard
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+

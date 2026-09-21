@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                E
+            </div>
+
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN MENU
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('home') }}"
+               class="menu-item active">
+
+                <span>▣</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('employees') }}"
+               class="menu-item">
+
+                <span>👥</span>
+                Employees
+
+            </a>
+
+
+            <a href="{{ url_for('attendance') }}"
+               class="menu-item">
+
+                <span>✓</span>
+                Attendance
+
+            </a>
+
+
+            <a href="{{ url_for('departments') }}"
+               class="menu-item">
+
+                <span>▦</span>
+                Departments
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            SYSTEM
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="#" class="menu-item">
+
+                <span>⚙</span>
+                Settings
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <span>?</span>
+                Help & Support
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="menu-item">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">
+                    {{ session.get('username', 'A')[:1].upper() }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ session.get('username', 'Administrator') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'admin') }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome back, {{ session.get('username', 'Administrator') }}
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="notification">
+                    🔔
+                    <span></span>
+                </button>
+
+                <div class="date">
+                    📅 Today
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <div class="stats">
+
+
+                <!-- TOTAL EMPLOYEES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon employees-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Total Employees
+                        </p>
+
+                        <h2>
+                            {{ total_employees }}
+                        </h2>
+
+                        <small>
+                            Active employees
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRESENT -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon present-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Present Today
+                        </p>
+
+                        <h2>
+                            {{ present_today }}
+                        </h2>
+
+                        <small>
+                            Employees present
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ABSENT -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon absent-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Absent Today
+                        </p>
+
+                        <h2>
+                            {{ absent_today }}
+                        </h2>
+
+                        <small>
+                            Employees absent
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEPARTMENTS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon department-icon">
+                        ▦
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Departments
+                        </p>
+
+                        <h2>
+                            {{ total_departments }}
+                        </h2>
+
+                        <small>
+                            Active departments
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= RECENT EMPLOYEES ================= -->
+
+            <div class="section-header recent-header">
+
+                <div>
+
+                    <h2>
+                        Recent Employees
+                    </h2>
+
+                    <p>
+                        Recently added employees
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url_for('employees') }}"
+                   class="view-all">
+
+                    View All →
+
+                </a>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EMPLOYEE
+                            </th>
+
+                            <th>
+                                EMPLOYEE ID
+                            </th>
+
+                            <th>
+                                DEPARTMENT
+                            </th>
+
+                            <th>
+                                DESIGNATION
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for employee in recent_employees %}
+
+                    <tr>
+
+
+                        <!-- EMPLOYEE -->
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="table-avatar">
+
+                                    {{ employee.name[:2].upper() }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        {{ employee.name }}
+                                    </strong>
+
+                                    <small>
+                                        {{ employee.email or 'No email' }}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- ID -->
+
+                        <td>
+                            {{ employee.employee_id }}
+                        </td>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <td>
+                            {{ employee.department or 'N/A' }}
+                        </td>
+
+
+                        <!-- DESIGNATION -->
+
+                        <td>
+                            {{ employee.designation or 'N/A' }}
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            {% if employee.status == 'Active' %}
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                            {% else %}
+
+                            <span class="status">
+                                {{ employee.status }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="5"
+                            style="
+                            text-align:center;
+                            padding:40px;
+                            ">
+
+                            No employees found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ================= ATTENDANCE SECTION ================= -->
+
+            <div class="section-header"
+                 style="margin-top:30px;">
+
+                <div>
+
+                    <h2>
+                        Today's Attendance
+                    </h2>
+
+                    <p>
+                        Attendance summary for today
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url_for('attendance') }}"
+                   class="view-all">
+
+                    View Attendance →
+
+                </a>
+
+            </div>
+
+
+            <div class="stats">
+
+
+                <!-- PRESENT -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon present-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Present
+                        </p>
+
+                        <h2>
+                            {{ present_today }}
+                        </h2>
+
+                        <small>
+                            Marked present today
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ABSENT -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon absent-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Absent
+                        </p>
+
+                        <h2>
+                            {{ absent_today }}
+                        </h2>
+
+                        <small>
+                            Marked absent today
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

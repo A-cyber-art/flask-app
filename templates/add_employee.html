@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Employee - EMS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Add Employee</h1>
+
+                <p>
+                    Add a new employee
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="table-card"
+                 style="padding:30px; max-width:700px;">
+
+                <form method="POST">
+
+
+                    <label>Employee ID</label>
+
+                    <input
+                        type="text"
+                        name="employee_id"
+                        placeholder="EMP-004"
+                        required>
+
+
+                    <label>Name</label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Ali Imran"
+                        required>
+
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="ali@example.com">
+
+
+                    <label>Phone</label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="03001234567">
+
+
+                    <label>Department</label>
+
+                    <select name="department">
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        <option>
+                            IT Department
+                        </option>
+
+                        <option>
+                            HR Department
+                        </option>
+
+                        <option>
+                            Finance
+                        </option>
+
+                        <option>
+                            Engineering
+                        </option>
+
+                        <option>
+                            Administration
+                        </option>
+
+                    </select>
+
+
+                    <label>Designation</label>
+
+                    <input
+                        type="text"
+                        name="designation"
+                        placeholder="Network Engineer">
+
+
+                    <label>Joining Date</label>
+
+                    <input
+                        type="date"
+                        name="joining_date">
+
+
+                    <label>Status</label>
+
+                    <select name="status">
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+
+                    <br><br>
+
+
+                    <button type="submit"
+                            class="add-btn">
+
+                        Save Employee
+
+                    </button>
+
+
+                    <a href="{{ url_for('employees') }}"
+                       class="action-btn">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

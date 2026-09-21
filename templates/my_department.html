@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Department - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="profile-card department-page-card">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                ▦
+            </div>
+
+            <div>
+                <h2>My Department</h2>
+                <p>Your department information</p>
+            </div>
+
+        </div>
+
+        {% if department %}
+
+        <div class="profile-grid">
+
+            <div class="profile-item">
+                <label>Department Name</label>
+                <p>{{ department.name }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Department Code</label>
+                <p>{{ department.code }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Department Head</label>
+                <p>{{ department.head }}</p>
+            </div>
+
+            <div class="profile-item">
+                <label>Status</label>
+
+                <p>
+                    <span class="profile-status">
+                        {{ department.status }}
+                    </span>
+                </p>
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="no-data">
+            <div class="no-data-icon">▦</div>
+
+            <h3>Department Not Found</h3>
+
+            <p>
+                Your employee account is not currently linked
+                to any department.
+            </p>
+        </div>
+
+        {% endif %}
+
+        <div class="profile-actions">
+
+            <a href="{{ url_for('user_dashboard') }}"
+               class="back-btn">
+                ← Back to Dashboard
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

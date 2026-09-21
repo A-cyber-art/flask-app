@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Attendance Assistant</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .alert-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .alert-box.warning {
+            background: #fff3cd;
+            border: 1px solid #ffecb5;
+            color: #664d03;
+        }
+
+        .alert-box.danger {
+            background: #f8d7da;
+            border: 1px solid #f5c2c7;
+            color: #842029;
+        }
+
+        .alert-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .alert-content strong {
+            display: block;
+            font-size: 19px;
+            margin-bottom: 6px;
+        }
+
+        .alert-content p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .ai-result {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 22px;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            padding: 10px 18px;
+            background: #222;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .back-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="title">
+            🤖 AI Attendance Assistant
+        </div>
+
+        <div class="subtitle">
+            Your attendance has been analyzed by the AI assistant.
+        </div>
+
+
+        <!-- =========================================
+             ATTENDANCE ALERT
+        ========================================== -->
+
+        {% if alert_message %}
+
+        <div class="alert-box {{ alert_type }}">
+
+            <div class="alert-icon">
+                ⚠️
+            </div>
+
+            <div class="alert-content">
+
+                <strong>
+                    Attendance Alert
+                </strong>
+
+                <p>
+                    {{ alert_message }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =========================================
+             AI RESULT
+        ========================================== -->
+
+        <div class="ai-result">
+            {{ result }}
+        </div>
+
+
+        <!-- =========================================
+             BACK BUTTON
+        ========================================== -->
+
+        <a
+            href="{{ url_for('user_dashboard') }}"
+            class="back-button"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

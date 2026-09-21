@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Employee Management System</title>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+
+<body>
+
+
+<div class="user-dashboard-page">
+
+    <div class="user-dashboard-container">
+
+        <!-- Header -->
+        <div class="user-welcome">
+
+            <div class="user-welcome-icon">
+                👤
+            </div>
+
+            <div>
+                <p class="user-welcome-label">
+                    EMPLOYEE PORTAL
+                </p>
+
+                <h1>
+                    Welcome, {{ session["username"] }}
+                </h1>
+
+                <p class="user-welcome-text">
+                    Manage your profile, attendance and department information.
+                </p>
+            </div>
+
+            <div class="user-role">
+                USER
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard Cards -->
+        <div class="user-dashboard-grid">
+
+            <!-- Profile -->
+            <a href="{{ url_for('my_profile') }}"
+               class="user-dashboard-card">
+
+                <div class="user-card-icon profile-card-icon">
+                    👤
+                </div>
+
+                <div class="user-card-content">
+
+                    <h2>
+                        My Profile
+                    </h2>
+
+                    <p>
+                        View your personal and employee information.
+                    </p>
+
+                    <span>
+                        View Profile →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- Attendance -->
+            <a href="{{ url_for('my_attendance') }}"
+               class="user-dashboard-card">
+
+                <div class="user-card-icon attendance-card-icon">
+                    ✓
+                </div>
+
+                <div class="user-card-content">
+
+                    <h2>
+                        My Attendance
+                    </h2>
+
+                    <p>
+                        Check your attendance records and status.
+                    </p>
+
+                    <span>
+                        View Attendance →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- AI Attendance Assistant -->
+            <a href="{{ url_for('ai_attendance') }}"
+               class="user-dashboard-card">
+
+                <div class="user-card-icon">
+                    🤖
+                </div>
+
+                <div class="user-card-content">
+
+                    <h2>
+                        AI Attendance Assistant
+                    </h2>
+
+                    <p>
+                        Get AI-powered insights about your working hours and attendance.
+                    </p>
+
+                    <span>
+                        Ask AI Assistant →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- Department -->
+            <a href="{{ url_for('my_department') }}"
+               class="user-dashboard-card">
+
+                <div class="user-card-icon department-card-icon">
+                    ▦
+                </div>
+
+                <div class="user-card-content">
+
+                    <h2>
+                        My Department
+                    </h2>
+
+                    <p>
+                        View your department and department details.
+                    </p>
+
+                    <span>
+                        View Department →
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Account Information -->
+        <div class="user-account-card">
+
+            <div>
+
+                <h3>
+                    Account Information
+                </h3>
+
+                <p>
+                    You are logged in as
+                    <strong>
+                        {{ session["username"] }}
+                    </strong>
+                </p>
+
+            </div>
+
+            <div class="account-role">
+                {{ session["role"]|upper }}
+            </div>
+
+        </div>
+
+
+        <!-- Logout -->
+        <div class="user-dashboard-footer">
+
+            <a href="{{ url_for('logout') }}"
+               class="user-logout-btn">
+                ↪ Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

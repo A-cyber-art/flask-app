@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Department - Employee Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">E</div>
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('home') }}" class="menu-item">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('employees') }}" class="menu-item">
+                <span>👥</span>
+                Employees
+            </a>
+
+            <a href="{{ url_for('attendance') }}" class="menu-item">
+                <span>✓</span>
+                Attendance
+            </a>
+
+            <a href="{{ url_for('departments') }}" class="menu-item active">
+                <span>▦</span>
+                Departments
+            </a>
+
+        </nav>
+
+        <div class="menu-title">SYSTEM</div>
+
+        <nav class="sidebar-menu">
+
+            <a href="#" class="menu-item">
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>?</span>
+                Help & Support
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="menu-item">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>
+                        {{ session.get('username', 'User') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'User') }}
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Add Department</h1>
+                <p>Create a new company department</p>
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="notification">
+                    🔔
+                    <span></span>
+                </button>
+
+                <div class="date">
+                    📅 Today
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div class="page-actions">
+
+                <div>
+                    <h2>Add New Department</h2>
+                    <p>Enter department information below</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <div style="padding: 30px;">
+
+                    {% if error %}
+                    <div style="
+                        background:#ffe5e5;
+                        color:#d63031;
+                        padding:12px;
+                        border-radius:8px;
+                        margin-bottom:20px;
+                    ">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+
+                    <form action="{{ url_for('add_department') }}" method="POST">
+
+                        <div style="
+                            display:grid;
+                            grid-template-columns:repeat(2, 1fr);
+                            gap:20px;
+                        ">
+
+                            <div>
+                                <label>Department Name</label>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Information Technology"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+                            </div>
+
+
+                            <div>
+                                <label>Department Code</label>
+
+                                <input
+                                    type="text"
+                                    name="code"
+                                    placeholder="IT-001"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+                            </div>
+
+
+                            <div>
+                                <label>Department Head</label>
+
+                                <input
+                                    type="text"
+                                    name="head"
+                                    placeholder="Ali Imran"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+                            </div>
+
+
+                            <div>
+                                <label>Status</label>
+
+                                <select
+                                    name="status"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+                                    <option value="Active">
+                                        Active
+                                    </option>
+
+                                    <option value="Inactive">
+                                        Inactive
+                                    </option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div style="
+                            margin-top:25px;
+                            display:flex;
+                            gap:10px;
+                        ">
+
+                            <button
+                                type="submit"
+                                class="add-btn"
+                            >
+                                + Add Department
+                            </button>
+
+                            <a
+                                href="{{ url_for('departments') }}"
+                                class="action-btn"
+                                style="
+                                    text-decoration:none;
+                                    padding:12px 20px;
+                                    display:inline-block;
+                                "
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+

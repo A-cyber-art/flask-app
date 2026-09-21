@@ -1,0 +1,674 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Departments - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                E
+            </div>
+
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN MENU
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('home') }}"
+               class="menu-item">
+
+                <span>▣</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('employees') }}"
+               class="menu-item">
+
+                <span>👥</span>
+                Employees
+
+            </a>
+
+
+            <a href="{{ url_for('attendance') }}"
+               class="menu-item">
+
+                <span>✓</span>
+                Attendance
+
+            </a>
+
+
+            <a href="{{ url_for('departments') }}"
+               class="menu-item active">
+
+                <span>▦</span>
+                Departments
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            SYSTEM
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="#"
+               class="menu-item">
+
+                <span>⚙</span>
+                Settings
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span>?</span>
+                Help & Support
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="menu-item">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">
+
+                    {{ session.get('username', 'U')[0].upper() }}
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        {{ session.get('username', 'User') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'User') }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Departments
+                </h1>
+
+                <p>
+                    Manage organizational departments
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="notification">
+
+                    🔔
+
+                    <span></span>
+
+                </button>
+
+
+                <div class="date">
+
+                    📅 Today
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+
+            <!-- PAGE HEADER -->
+            <div class="page-actions">
+
+                <div>
+
+                    <h2>
+                        Department Directory
+                    </h2>
+
+                    <p>
+                        View and manage company departments
+                    </p>
+
+                </div>
+
+
+                {% if session.get('role') == 'admin' %}
+
+                <a href="{{ url_for('add_department') }}"
+                   class="add-btn">
+
+                    + Add Department
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- STATS -->
+            <div class="stats">
+
+
+                <!-- TOTAL DEPARTMENTS -->
+                <div class="stat-card">
+
+                    <div class="stat-icon department-icon">
+                        ▦
+                    </div>
+
+
+                    <div>
+
+                        <p>
+                            Total Departments
+                        </p>
+
+                        <h2>
+                            {{ departments|length }}
+                        </h2>
+
+                        <small>
+                            Company departments
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOTAL EMPLOYEES -->
+                <div class="stat-card">
+
+                    <div class="stat-icon employees-icon">
+                        👥
+                    </div>
+
+
+                    <div>
+
+                        <p>
+                            Total Employees
+                        </p>
+
+                        <h2>
+                            {{ departments | sum(attribute='employee_count') }}
+                        </h2>
+
+                        <small>
+                            Across all departments
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ACTIVE DEPARTMENTS -->
+                <div class="stat-card">
+
+                    <div class="stat-icon present-icon">
+                        ✓
+                    </div>
+
+
+                    <div>
+
+                        <p>
+                            Active Departments
+                        </p>
+
+                        <h2>
+
+                            {{
+                                departments
+                                | selectattr('status', 'equalto', 'Active')
+                                | list
+                                | length
+                            }}
+
+                        </h2>
+
+                        <small>
+                            Currently operational
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- INACTIVE DEPARTMENTS -->
+                <div class="stat-card">
+
+                    <div class="stat-icon absent-icon">
+                        !
+                    </div>
+
+
+                    <div>
+
+                        <p>
+                            Inactive
+                        </p>
+
+                        <h2>
+
+                            {{
+                                departments
+                                | rejectattr('status', 'equalto', 'Active')
+                                | list
+                                | length
+                            }}
+
+                        </h2>
+
+                        <small>
+                            Inactive departments
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Departments
+                    </h2>
+
+                    <p>
+                        All company departments
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-card">
+
+                <div class="search-box">
+
+                    🔍
+
+                    <input
+                        type="text"
+                        id="departmentSearch"
+                        placeholder="Search departments..."
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DEPARTMENT TABLE -->
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                DEPARTMENT
+                            </th>
+
+                            <th>
+                                CODE
+                            </th>
+
+                            <th>
+                                DEPARTMENT HEAD
+                            </th>
+
+                            <th>
+                                EMPLOYEES
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="departmentTable">
+
+
+                    {% for department in departments %}
+
+                    <tr>
+
+
+                        <!-- DEPARTMENT -->
+                        <td>
+
+                            <div class="employee">
+
+
+                                <div class="department-avatar">
+
+                                    {{ department.name[:2].upper() }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ department.name }}
+
+                                    </strong>
+
+
+                                    <small>
+
+                                        {{ department.name }} Department
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- CODE -->
+                        <td>
+
+                            {{ department.code }}
+
+                        </td>
+
+
+
+                        <!-- HEAD -->
+                        <td>
+
+                            {{ department.head or 'Not Assigned' }}
+
+                        </td>
+
+
+
+                        <!-- EMPLOYEES -->
+                        <td>
+
+                            {{ department.employee_count }}
+
+                        </td>
+
+
+
+                        <!-- STATUS -->
+                        <td>
+
+                            {% if department.status == 'Active' %}
+
+                            <span class="status active-status">
+
+                                Active
+
+                            </span>
+
+                            {% else %}
+
+                            <span
+                                class="status"
+                                style="
+                                    background:#ffe5e5;
+                                    color:#d63031;
+                                "
+                            >
+
+                                {{ department.status }}
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- ACTION -->
+                        <td>
+
+                            {% if session.get('role') == 'admin' %}
+
+
+                            <!-- EDIT -->
+                            <a
+                                href="{{ url_for('edit_department', id=department.id) }}"
+                                class="action-btn"
+                                style="text-decoration:none;"
+                            >
+
+                                Edit
+
+                            </a>
+
+
+                            <!-- DELETE -->
+                            <a
+                                href="{{ url_for('delete_department', id=department.id) }}"
+                                class="action-btn"
+                                style="
+                                    text-decoration:none;
+                                    color:#d63031;
+                                "
+                                onclick="
+                                    return confirm(
+                                        'Are you sure you want to delete this department?'
+                                    );
+                                "
+                            >
+
+                                Delete
+
+                            </a>
+
+
+                            {% else %}
+
+
+                            <!-- USER VIEW -->
+                            <span class="action-btn">
+
+                                View
+
+                            </span>
+
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+
+                    <!-- NO RECORDS -->
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            style="
+                                text-align:center;
+                                padding:40px;
+                            "
+                        >
+
+                            No departments found.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- SEARCH SCRIPT -->
+<script>
+
+const searchInput =
+    document.getElementById("departmentSearch");
+
+
+searchInput.addEventListener("keyup", function () {
+
+    const searchValue =
+        this.value.toLowerCase();
+
+
+    const rows =
+        document.querySelectorAll(
+            "#departmentTable tr"
+        );
+
+
+    rows.forEach(function(row) {
+
+        const text =
+            row.innerText.toLowerCase();
+
+
+        if (text.includes(searchValue)) {
+
+            row.style.display = "";
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>

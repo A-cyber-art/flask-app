@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">
+            👨‍💼
+        </div>
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+            Welcome, {{ session["username"] }}
+        </p>
+
+        <div class="dashboard-buttons">
+
+            <a href="{{ url_for('employees') }}">
+                👥 Manage Employees
+            </a>
+
+            <a href="{{ url_for('attendance') }}">
+                ✓ Attendance
+            </a>
+
+            <a href="{{ url_for('departments') }}">
+                ▦ Departments
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

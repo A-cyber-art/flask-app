@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">E</div>
+
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('home') }}" class="menu-item">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('employees') }}" class="menu-item active">
+                <span>👥</span>
+                Employees
+            </a>
+
+            <a href="{{ url_for('attendance') }}" class="menu-item">
+                <span>✓</span>
+                Attendance
+            </a>
+
+            <a href="{{ url_for('departments') }}" class="menu-item">
+                <span>▦</span>
+                Departments
+            </a>
+
+        </nav>
+
+        <div class="menu-title">SYSTEM</div>
+
+        <nav class="sidebar-menu">
+
+            <a href="#" class="menu-item">
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>?</span>
+                Help & Support
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="menu-item">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">A</div>
+
+                <div>
+                    <strong>
+                        {{ session.get('username', 'User') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'User') }}
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+
+                <h1>Edit Employee</h1>
+
+                <p>
+                    Update employee information
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="date">
+                    📅 Today
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+            <div class="page-actions">
+
+                <div>
+
+                    <h2>
+                        Edit Employee
+                    </h2>
+
+                    <p>
+                        Update the employee details below
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ERROR -->
+            {% if error %}
+
+            <div style="
+                background:#ffe5e5;
+                color:#d63031;
+                padding:15px;
+                border-radius:8px;
+                margin-bottom:20px;
+            ">
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- FORM -->
+            <div class="table-card">
+
+                <div style="padding:30px;">
+
+                    <form method="POST"
+                          action="{{ url_for('edit_employee', id=employee.id) }}">
+
+                        <div style="
+                            display:grid;
+                            grid-template-columns:1fr 1fr;
+                            gap:20px;
+                        ">
+
+
+                            <!-- EMPLOYEE ID -->
+                            <div>
+
+                                <label>
+                                    Employee ID
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="employee_id"
+                                    value="{{ employee.employee_id }}"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- NAME -->
+                            <div>
+
+                                <label>
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value="{{ employee.name }}"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div>
+
+                                <label>
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value="{{ employee.email or '' }}"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- PHONE -->
+                            <div>
+
+                                <label>
+                                    Phone
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value="{{ employee.phone or '' }}"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- DEPARTMENT -->
+                            <div>
+
+                                <label>
+                                    Department
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="department"
+                                    value="{{ employee.department or '' }}"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- DESIGNATION -->
+                            <div>
+
+                                <label>
+                                    Designation
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="designation"
+                                    value="{{ employee.designation or '' }}"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- JOINING DATE -->
+                            <div>
+
+                                <label>
+                                    Joining Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="joining_date"
+                                    value="{{ employee.joining_date }}"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- STATUS -->
+                            <div>
+
+                                <label>
+                                    Status
+                                </label>
+
+                                <select
+                                    name="status"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                    "
+                                >
+
+                                    <option
+                                        value="Active"
+                                        {% if employee.status == "Active" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        Active
+                                    </option>
+
+                                    <option
+                                        value="Inactive"
+                                        {% if employee.status == "Inactive" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+                        <div style="
+                            margin-top:25px;
+                            display:flex;
+                            gap:12px;
+                        ">
+
+                            <button
+                                type="submit"
+                                class="add-btn"
+                            >
+                                Update Employee
+                            </button>
+
+
+                            <a
+                                href="{{ url_for('employees') }}"
+                                class="action-btn"
+                                style="
+                                    text-decoration:none;
+                                    padding:12px 20px;
+                                    display:inline-block;
+                                "
+                            >
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

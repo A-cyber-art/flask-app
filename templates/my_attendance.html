@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Attendance - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .attendance-wrapper {
+            padding: 30px;
+        }
+
+        .attendance-header {
+            margin-bottom: 25px;
+        }
+
+        .attendance-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .attendance-header p {
+            margin: 0;
+        }
+
+        .attendance-card {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .attendance-table th,
+        .attendance-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .attendance-table th {
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .present {
+            background: #e8f7ee;
+            color: #16834b;
+        }
+
+        .absent {
+            background: #ffe8e8;
+            color: #d63031;
+        }
+
+        .leave {
+            background: #fff4d6;
+            color: #a66a00;
+        }
+
+        .time-value {
+            font-weight: 600;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                E
+            </div>
+
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN MENU
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('user_dashboard') }}"
+               class="menu-item">
+
+                <span>▣</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('my_profile') }}"
+               class="menu-item">
+
+                <span>👤</span>
+                My Profile
+
+            </a>
+
+
+            <a href="{{ url_for('my_attendance') }}"
+               class="menu-item active">
+
+                <span>✓</span>
+                My Attendance
+
+            </a>
+
+
+            <a href="{{ url_for('my_department') }}"
+               class="menu-item">
+
+                <span>▦</span>
+                My Department
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            SYSTEM
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('ai_attendance') }}"
+               class="menu-item">
+
+                <span>🤖</span>
+                AI Attendance Assistant
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="menu-item">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ session.get('username', 'User') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'User') }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    My Attendance
+                </h1>
+
+                <p>
+                    View your attendance records
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="date">
+                    📅 Today
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <div class="attendance-wrapper">
+
+                <div class="attendance-header">
+
+                    <h1>
+                        Attendance Records
+                    </h1>
+
+                    <p>
+                        Your attendance history including check-in and check-out times.
+                    </p>
+
+                </div>
+
+
+                <div class="attendance-card">
+
+                    <table class="attendance-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    DATE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    CHECK-IN
+                                </th>
+
+                                <th>
+                                    CHECK-OUT
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for record in attendance_records %}
+
+                            <tr>
+
+                                <td>
+                                    {{ record.attendance_date }}
+                                </td>
+
+
+                                <td>
+
+                                    {% if record.status == "Present" %}
+
+                                        <span class="status present">
+                                            Present
+                                        </span>
+
+                                    {% elif record.status == "Absent" %}
+
+                                        <span class="status absent">
+                                            Absent
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status leave">
+                                            {{ record.status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if record.check_in %}
+
+                                        <span class="time-value">
+                                            {{ record.check_in }}
+                                        </span>
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if record.check_out %}
+
+                                        <span class="time-value">
+                                            {{ record.check_out }}
+                                        </span>
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="4"
+                                    class="empty-message">
+
+                                    No attendance records found.
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance - Employee Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                E
+            </div>
+
+            <div>
+                <h2>EMS</h2>
+                <span>Employee System</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MAIN MENU
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('home') }}"
+               class="menu-item">
+
+                <span>▣</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('employees') }}"
+               class="menu-item">
+
+                <span>👥</span>
+                Employees
+
+            </a>
+
+
+            <a href="{{ url_for('attendance') }}"
+               class="menu-item active">
+
+                <span>✓</span>
+                Attendance
+
+            </a>
+
+
+            <a href="{{ url_for('departments') }}"
+               class="menu-item">
+
+                <span>▦</span>
+                Departments
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-title">
+            SYSTEM
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="#"
+               class="menu-item">
+
+                <span>⚙</span>
+                Settings
+
+            </a>
+
+
+            <a href="#"
+               class="menu-item">
+
+                <span>?</span>
+                Help & Support
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="menu-item">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ session.get('username', 'User') }}
+                    </strong>
+
+                    <small>
+                        {{ session.get('role', 'User') }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Attendance
+                </h1>
+
+                <p>
+                    Manage employee attendance
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="notification">
+                    🔔
+                    <span></span>
+                </button>
+
+
+                <div class="date">
+                    📅 Today
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-actions">
+
+                <div>
+
+                    <h2>
+                        Attendance Management
+                    </h2>
+
+                    <p>
+                        Record and view employee attendance
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MARK ATTENDANCE -->
+
+            {% if session.get('role') == 'admin' %}
+
+            <div class="table-card">
+
+                <div style="padding:25px;">
+
+                    <h2>
+                        Mark Attendance
+                    </h2>
+
+                    <br>
+
+
+                    <form action="{{ url_for('mark_attendance') }}"
+                          method="POST">
+
+
+                        <div style="
+                            display:grid;
+                            grid-template-columns:repeat(6, 1fr);
+                            gap:15px;
+                        ">
+
+
+                            <!-- EMPLOYEE ID -->
+
+                            <div>
+
+                                <label>
+                                    Employee ID
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="employee_id"
+                                    placeholder="EMP-001"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                        box-sizing:border-box;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- DATE -->
+
+                            <div>
+
+                                <label>
+                                    Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="attendance_date"
+                                    value="{{ request.form.get('attendance_date', '') }}"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                        box-sizing:border-box;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- STATUS -->
+
+                            <div>
+
+                                <label>
+                                    Status
+                                </label>
+
+                                <select
+                                    name="status"
+                                    id="status"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                        box-sizing:border-box;
+                                    "
+                                >
+
+                                    <option value="Present">
+                                        Present
+                                    </option>
+
+                                    <option value="Absent">
+                                        Absent
+                                    </option>
+
+                                    <option value="Leave">
+                                        Leave
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- CHECK IN -->
+
+                            <div>
+
+                                <label>
+                                    Check-in
+                                </label>
+
+                                <input
+                                    type="time"
+                                    name="check_in"
+                                    id="check_in"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                        box-sizing:border-box;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- CHECK OUT -->
+
+                            <div>
+
+                                <label>
+                                    Check-out
+                                </label>
+
+                                <input
+                                    type="time"
+                                    name="check_out"
+                                    id="check_out"
+                                    style="
+                                        width:100%;
+                                        padding:12px;
+                                        margin-top:6px;
+                                        box-sizing:border-box;
+                                    "
+                                >
+
+                            </div>
+
+
+                            <!-- BUTTON -->
+
+                            <div style="
+                                display:flex;
+                                align-items:end;
+                            ">
+
+                                <button
+                                    type="submit"
+                                    class="add-btn"
+                                    style="
+                                        width:100%;
+                                    "
+                                >
+
+                                    Mark Attendance
+
+                                </button>
+
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <br>
+
+
+            <!-- ATTENDANCE TABLE -->
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EMPLOYEE ID
+                            </th>
+
+                            <th>
+                                EMPLOYEE
+                            </th>
+
+                            <th>
+                                DEPARTMENT
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                CHECK-IN
+                            </th>
+
+                            <th>
+                                CHECK-OUT
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for record in attendance_records %}
+
+                    <tr>
+
+
+                        <!-- EMPLOYEE ID -->
+
+                        <td>
+
+                            {{ record.employee_id }}
+
+                        </td>
+
+
+                        <!-- EMPLOYEE -->
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="table-avatar">
+
+                                    {{ record.name[:2].upper() }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ record.name }}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <td>
+
+                            {{ record.department }}
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+                            {{ record.attendance_date }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            {% if record.status == "Present" %}
+
+                            <span class="status active-status">
+
+                                Present
+
+                            </span>
+
+
+                            {% elif record.status == "Absent" %}
+
+                            <span
+                                class="status"
+                                style="
+                                    background:#ffe5e5;
+                                    color:#d63031;
+                                "
+                            >
+
+                                Absent
+
+                            </span>
+
+
+                            {% else %}
+
+                            <span class="status">
+
+                                {{ record.status }}
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CHECK-IN -->
+
+                        <td>
+
+                            {% if record.check_in %}
+
+                                {{ record.check_in }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CHECK-OUT -->
+
+                        <td>
+
+                            {% if record.check_out %}
+
+                                {{ record.check_out }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            style="
+                                text-align:center;
+                                padding:40px;
+                            "
+                        >
+
+                            No attendance records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- OPTIONAL: Disable time fields for Absent/Leave -->
+
+<script>
+
+    const statusField = document.getElementById("status");
+    const checkInField = document.getElementById("check_in");
+    const checkOutField = document.getElementById("check_out");
+
+    function updateTimeFields() {
+
+        if (!statusField) {
+            return;
+        }
+
+        if (
+            statusField.value === "Absent" ||
+            statusField.value === "Leave"
+        ) {
+
+            checkInField.value = "";
+            checkOutField.value = "";
+
+            checkInField.disabled = true;
+            checkOutField.disabled = true;
+
+        } else {
+
+            checkInField.disabled = false;
+            checkOutField.disabled = false;
+
+        }
+
+    }
+
+
+    if (statusField) {
+
+        statusField.addEventListener(
+            "change",
+            updateTimeFields
+        );
+
+        updateTimeFields();
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
